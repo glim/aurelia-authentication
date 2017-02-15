@@ -212,7 +212,7 @@ System.register(['extend', 'jwt-decode', 'aurelia-pal', 'aurelia-path', 'aurelia
                 var qs = parseUrl(parser);
 
                 if (qs.error) {
-                  reject({ error: qs.error });
+                  reject(qs);
                 } else {
                   resolve(qs);
                 }
@@ -243,7 +243,7 @@ System.register(['extend', 'jwt-decode', 'aurelia-pal', 'aurelia-path', 'aurelia
                   var qs = parseUrl(_this2.popupWindow.location);
 
                   if (qs.error) {
-                    reject({ error: qs.error });
+                    reject(qs);
                   } else {
                     resolve(qs);
                   }
@@ -1493,7 +1493,7 @@ System.register(['extend', 'jwt-decode', 'aurelia-pal', 'aurelia-path', 'aurelia
               });
             }
           } else {
-            return this.config.logoutUrl ? this.client.request(this.config.logoutMethod, this.config.joinBase(this.config.logoutUrl)).then(localLogout) : localLogout();
+            return this.config.logoutUrl ? this.client.request(this.config.logoutMethod, this.config.joinBase(this.config.logoutUrl)).then(localLogout).catch(localLogout) : localLogout();
           }
         };
 
@@ -1618,19 +1618,13 @@ System.register(['extend', 'jwt-decode', 'aurelia-pal', 'aurelia-path', 'aurelia
           var _this17 = this;
 
           if (Array.isArray(client)) {
-            var _ret = function () {
-              var configuredClients = [];
+            var configuredClients = [];
 
-              client.forEach(function (toConfigure) {
-                configuredClients.push(_this17.configure(toConfigure));
-              });
+            client.forEach(function (toConfigure) {
+              configuredClients.push(_this17.configure(toConfigure));
+            });
 
-              return {
-                v: configuredClients
-              };
-            }();
-
-            if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+            return configuredClients;
           }
 
           if (typeof client === 'string') {
