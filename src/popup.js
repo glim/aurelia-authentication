@@ -37,7 +37,7 @@ export class Popup {
           const qs = parseUrl(parser);
 
           if (qs.error) {
-            reject({error: qs.error});
+            reject(qs);
           } else {
             resolve(qs);
           }
@@ -67,7 +67,7 @@ export class Popup {
             const qs = parseUrl(this.popupWindow.location);
 
             if (qs.error) {
-              reject({error: qs.error});
+              reject(qs);
             } else {
               resolve(qs);
             }
